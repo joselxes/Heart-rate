@@ -22,15 +22,15 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return  render_template("logPage.html")
+    return  render_template("trueLogin.html")
+    # return  render_template("logPage.html")
 
 @app.route("/welcome", methods=["GET","POST"])
 def welcome():
     if request.method=="POST":
         session.name = request.form.get("name")
         session.contrasena = request.form.get("psw")
-        name = request.form.get("name")
-        contrasena = request.form.get("psw")
+        # session["notes"].append(note)
         return  render_template("welcome.html",
         name=session.name,
         contrasena=session.contrasena)
