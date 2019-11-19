@@ -1,13 +1,52 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <link rel="stylesheet" href="docsas.css">
     </head>
     <body>
-        <div class="container">
-            {% block body %}
-            {% endblock %}
-        </div>
+<center>
+  <table class="table table-sm table-striped table-dark col-lg-3 col-sm-6" style="width:70%;" >
+    <caption>Links y descripcin de la pagina web y de las pestanas</caption>
+      <tr>
+        <th scope="col"class="bg-primary">
+          <form  action="{{ url_for('index') }}">
+            <button  class="btn btn-primary">&#x26D4;inicio</button>
+          </form>
+        </th>
+        <th scope="col"class="bg-success">
+          <form  action="{{ url_for('index') }}">
+            <button  class="btn btn-success">&#x26D4;otro</button>
+          </form>
+        </th>
+        <th scope="col"class="bg-warning">
+          <form  action="{{ url_for('index') }}">
+            <button  class="btn btn-warning">&#x26D4;otro1</button>
+          </form>
+
+        </th>
+      </tr>
+      <tr>
+        <td  colspan="5" style="text-align:center;">Contiene</td>
+      </tr>
+      <tr >
+        <td>Detalles Viaje</td>
+        <td>Detalles Viaje</td>
+        <td>Detalles Planes</td>
+      </tr>
+      <tr>
+        <td>Organizacion</td>
+        <td>Organizacion</td>
+        <td>Conflictos</td>
+      </tr>
+  </table>
+</center>
+  <div class="container">
+    {% block body %}
+    {% endblock %}
+  </div>
     </body>
 </html>

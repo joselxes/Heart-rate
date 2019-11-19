@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    New user
+{% endblock %}
+
+{% block body %}
+    <h1>Fill your data</h1>
+
+    <form action="{{ url_for('welcomeNewUser') }}" method="post">
+
+      <div class="form-group">
+        <input class="form-control" name="name" placeholder="Passenger name">
+      </div>
+
+      <div class="form-group">
+          <input class="form-control" type="password" name="contrasena" placeholder="Passenge passwor">
+      </div>
+
+      <div class="form-group" method="post">
+          <button class="btn btn-primary">Book Flight</button>
+      </div>
+
+      </form>
+      
+{% endblock %}
