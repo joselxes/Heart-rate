@@ -21,16 +21,16 @@
             <img src="/static/images/gp.png" alt="">
           </div>
           <form id="login" class="input-group" action="{{ url_for('welcome') }}" method="post">
-            <input type="text" class="input-field" placeholder="User Id" required>
-            <input type="password" class="input-field" placeholder="Enter Password" required>
+            <input type="text" class="input-field" name="name" placeholder="User Id" required>
+            <input type="password" class="input-field" name="psw" placeholder="Enter Password" required>
             <input type="checkbox" class="chech-box"><span>Remember Password</span>
             <button type="submit" class="submit-btn">Loggin</button>
           </form>
-          <form id="register" class="input-group">
+          <form id="register" class="input-group" action="{{ url_for('welcome') }}" method="post">
             <input type="text" class="input-field" name="name" placeholder="User Id" required>
-            <input type="email" class="input-field" placeholder="email Id" required>
+            <input type="email" class="input-field" name="email" placeholder="email Id" required>
             <input type="password" class="input-field" name="psw" placeholder="Enter Password" required>
-            <input type="password" class="input-field" placeholder="Confirm Password" required>
+            <input type="password" class="input-field" name="pswConfirm" placeholder="Confirm Password" required>
             <input type="checkbox" class="chech-box"><span>I agree to the terms</span>
             <button type="submit" class="submit-btn">Register</button>
           </form>

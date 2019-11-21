@@ -14,33 +14,34 @@
       <tr>
         <th scope="col"class="bg-primary">
           <form  action="{{ url_for('index') }}">
-            <button  class="btn btn-primary">&#x26D4;inicio</button>
+            <button  class="btn btn-primary">&#x26D4;regresar al inicio</button>
           </form>
         </th>
         <th scope="col"class="bg-success">
           <form  action="{{ url_for('index') }}">
-            <button  class="btn btn-success">&#x26D4;otro</button>
+            <button  class="btn btn-success">&#x26D4;Sin uso actual</button>
           </form>
         </th>
         <th scope="col"class="bg-warning">
-          <form  action="{{ url_for('index') }}">
-            <button  class="btn btn-warning">&#x26D4;otro1</button>
+          <form  action="{{ url_for('index') }}" method="post">
+            <input type="hidden" name="session" value="no">
+            <button  class="btn btn-warning">&#x26D4;Log out</button>
           </form>
 
         </th>
       </tr>
       <tr>
-        <td  colspan="5" style="text-align:center;">Contiene</td>
+        <td  colspan="5" style="text-align:center;">Puede realizar sus busquedas mediante</td>
       </tr>
       <tr >
-        <td>Detalles Viaje</td>
-        <td>Detalles Viaje</td>
-        <td>Detalles Planes</td>
+        <td>isb number</td>
+        <td>nombre de autor</td>
+        <td>titulo de la obra</td>
       </tr>
       <tr>
-        <td>Organizacion</td>
-        <td>Organizacion</td>
-        <td>Conflictos</td>
+        <td>BIEN-- </td>
+        <td>publication year </td>
+        <td>--VENIDO</td>
       </tr>
   </table>
 </center>
