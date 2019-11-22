@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Welcomess
+    <h1>{{mensaje}}</h1>
+{% endblock %}
+
+{% block body %}
+
+    <h2>{{name}}</h2>
+    <h2>{{lol}}</h2>
+    <form action="{{ url_for('searchPage') }}"  method="post">
+      <div>
+        <label for="sbnHeaderBox">Code Number</label>
+        <input type="text" class="form-control" name="sbnNumber" id="sbnHeaderBox"  placeholder="insert number of book">
+
+        <label for="titleHeaderBox">Title</label>
+        <input type="text" class="form-control" name="title" id="titleHeaderBox" placeholder="book title">
+        <label for="authorHeaderBox">Author</label>
+        <input type="text" class="form-control" name="author" id="authorHeaderBox" placeholder="author's name">
+
+        <label for="yearHeaderBox">Publication year</label>
+        <input type="text" class="form-control" name="pubYear" id="yearHeaderBox" placeholder="publication year">
+        <input type="hidden" name="name" value={{name}}>
+        <input type="hidden" name="psw" value={{psw}}>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+    <h1> {{mensaje}} </h1>
+
+    <ul>
+      {% for book in bks %}
+          <li>
+            <!-- <a href="{{ url_for('searchPage', Source=book.sbnNumber) }}"> -->
+            <a href="{{ url_for('searchPage') }}/{{book.sbnNumber}}">  
+            {{ book.sbnNumber }} || {{ book.title }} || {{ book.pubYear }} || {{ book.author }}
+            </a>
+          </li>
+      {% else %}
+      <li> realize una busqueda para cargar los links</li>
+      {% endfor %}
+    <!-- </ul>
+
+{% endblock %}

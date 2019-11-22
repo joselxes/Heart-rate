@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -18,7 +18,16 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 # Set up database
 db = scoped_session(sessionmaker(bind=engine))
-
+def integra( palabra):
+    add='%'
+    return add+palabra+add
+def integr( palabra):
+    add=' '
+    return add+palabra+add
+# def confirma( palabra):
+#     if palabra is None:
+#         return "u"
+#     return palabra
 
 @app.route("/",methods=["GET","POST"])
 def index():
@@ -26,31 +35,72 @@ def index():
         session["name"] = []
         session["contrasena"] = ""
         session["session"] = "si"
+    # book = Book(sbnNumber=sbnNumber, title=title, author=author, pubYear=pubYear)
+    # db.session.add(book)
     if request.method == "POST":
         session["session"]=request.form.get("session")
         if session["session"] == "no" :
             session.clear()
             session["name"] = []
-            session["contrasena"] = ""
+            session["psw"] = ""
             session["session"] = "si"
+            return  render_template("trueLogin.html")
+        else:
+            session["name"] = request.form.get("name")
+            session["psw"] = request.form.get("psw")
+            db.execute("""INSERT INTO "users" ("user","password") VALUES  (:name , :psw) """, {"name":session["name"],"psw":session["psw"]})
+            db.commit()
+
+        # return  render_template("trueLogin.html")
+
     return  render_template("trueLogin.html")
+@app.route("/searchPage", methods=["GET","POST"])
+def searchPage():
+    session["password"]=request.form.get("psw")
+    session["user"]=request.form.get("name")
+    session["cliente"] = db.execute("""SELECT * FROM "users" WHERE "user" = :user""", {"user":session["user"] }).fetchone()
+    if session.get("cliente") is None:
+            return  render_template("trueLogin.html")
+    if session["cliente"].password != session["password"]:
+                return  render_template("trueLogin.html")
+    if session.get("books") is None:
+        session["title"]=""
+        session["pubYear"]=""
+        session["author"]=""
+        session["sbnNumber"]=""
+        session["books"]=""#db.execute("""SELECT "sbnNumber","title","author", "pubYear" FROM "books" WHERE "title" LIKE :tito AND "pubYear" LIKE :yer AND "author" LIKE :crea AND "sbnNumber" LIKE :num""",
+#        {"tito":integra(session["title"]),"yer":integra(session["pubYear"]),"crea":integra(session["author"]),"num":integra(session["sbnNumber"])}).fetchall()
 
+    session["title"]=request.form.get("title")
+    session["pubYear"]=request.form.get("pubYear")
+    session["author"]=request.form.get("author")
+    session["sbnNumber"]=request.form.get("sbnNumber")
+    comando=["""SELECT "sbnNumber","title","author", "pubYear" FROM "books" WHERE "title" LIKE :tito AND "pubYear" LIKE :yer AND "author" LIKE :crea AND "sbnNumber" LIKE :num""",{"tito":integra(session["title"]),"yer":integra(session["pubYear"]),"crea":integra(session["author"]),"num":integra(session["sbnNumber"])}]
+    print(comando)
+    session["books"]=db.execute("""SELECT "sbnNumber","title","author", "pubYear" FROM "books" WHERE "title" LIKE :tito AND "pubYear" LIKE :yer AND "author" LIKE :crea AND "sbnNumber" LIKE :num""",{"tito":integra(session["title"]),"yer":integra(session["pubYear"]),"crea":integra(session["author"]),"num":integra(session["sbnNumber"])}).fetchall()
+#    session["books"]=db.execute("""SELECT "sbnNumber","title","author", "pubYear" FROM "books" WHERE "title" LIKE :tito AND "pubYear" LIKE :yer AND "author" LIKE :crea AND "sbnNumber" LIKE :num""",
+#    {"tito":integra(session["title"]),"yer":integra(session["pubYear"]),"crea":integra(session["author"]),"num":integra(session["sbnNumber"])}).fetchall()
+    # if request.method=="POST":
+        # return  render_template("searchPage.html",books=session["books"],mensaje="post")#session["books"],mensaje="posted")
 
-@app.route("/welcome", methods=["GET","POST"])
-def welcome():
-    if request.method=="POST":
-        session["name"] = request.form.get("name")
-        session["contrasena"] = request.form.get("psw")
-        # session["notes"].append(note)
-        return  render_template("welcome.html",
-        name=session["name"],
-        contrasena=session["contrasena"])
-    else:
-        return render_template(" advertencia.html")
+    # if session["books"] is None:
+    #     return "bool" #render_template("searchPage.html",bks=session["books"],mensaje="no existe ese libro",psw=session["password"],name=session["user"])
 
-@app.route("/welcomeNewUser")
-def welcomeNewUser():
-    return  render_template("welcomeNewUser.html")
+    return render_template("searchPage.html",bks=session["books"],
+    lol=session["sbnNumber"],
+    psw=session["password"],
+    name=session["user"])
+    #,mensaje=" busqueda exitosa")
+
+@app.route("/searchPage/<Source>" )
+def bookdata(Source):
+    session["databook"] = db.execute("""SELECT * FROM "books" WHERE "sbnNumber" = :Source""", {"Source":Source }).fetchone()
+    session["datareview"] = db.execute("""SELECT * FROM "reviews" WHERE "sbnNumber" = :Sour""", {"Sour":Source }).fetchall()
+    #session["databook"]=Book.query.filter_by(sbnNumber=bookSource).fetchone
+    if session["databook"] is None:
+            return  #"render_template("advertencia.html")
+    return  render_template("review.html",book=session["databook"],reviews=session["datareview"])
+    #render_template("advertencia.html",sbnNum=Source)
 
 # @app.route("/welcomeNewUser/portal")
 # def portal():

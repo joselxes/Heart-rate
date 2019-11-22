@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Welcomess
+{% endblock %}
+
+{% block body %}
+    <h1>Client Details</h1>
+
+    <!-- <ul>
+      {% for book in books %}
+        <li>{{sbnNumber}}</li>
+      {% endfor %}
+    </ul> -->
+    <form>
+      <div id="search" class="form-group" action="{{url_for('soloSearch')}}"  method="post">
+        <label for="sbnHeaderBox">Code Number</label>
+        <input type="text" class="form-control" name="sbnNumber" id="sbnHeaderBox" aria-describedby="emailHelp" placeholder="insert number of book">
+        <small id="emailHelp" class="form-text text-muted">this value is optional.</small>
+      </div>
+      <div class="form-group">
+        <label for="titleHeaderBox">Title</label>
+        <input type="text" class="form-control" name="title" id="titleHeaderBox" placeholder="book title">
+      </div>
+      <div class="form-group">
+        <label for="authorHeaderBox">Author</label>
+        <input type="text" class="form-control" name="author" id="authorHeaderBox" placeholder="author's name">
+      </div>
+      <div class="form-group">
+        <label for="yearHeaderBox">Publication year</label>
+        <input type="text" class="form-control" name="pubYear" id="yearHeaderBox" placeholder="publication year">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

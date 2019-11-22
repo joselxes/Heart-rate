@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Welcomess
+    <h1>{{mensaje}}</h1>
+{% endblock %}
+
+{% block body %}
+
+    <!-- <form action="{{ url_for('searchPage') }}"  method="post">
+
+        <label for="sbnHeaderBox">Code Number</label>
+        <input type="text" class="form-control" name="sbnNumber" id="sbnHeaderBox"  placeholder="insert number of book">
+
+        <label for="titleHeaderBox">Title</label>
+        <input type="text" class="form-control" name="title" id="titleHeaderBox" placeholder="book title">
+        <label for="authorHeaderBox">Author</label>
+        <input type="text" class="form-control" name="author" id="authorHeaderBox" placeholder="author's name">
+
+        <label for="yearHeaderBox">Publication year</label>
+        <input type="text" class="form-control" name="pubYear" id="yearHeaderBox" placeholder="publication year">
+      </div>
+ -->
+      <!-- <button type="submit" class="btn btn-primary">Buscar</button> -->
+    </form>
+    <h3> {{ book.sbnNumber }} || {{ book.title }} ||</h3>
+    <h3> {{ book.pubYear }}</h3>
+    <h3>||{{ book.author }} </h3>
+
+    <ul>
+      {% for book in reviews  %}
+          <li>
+            <!-- <a href="{{ url_for('searchPage', bookSource=book.sbnNumber) }}"> -->
+            
+            || {{ book.user }} || {{ book.rate }} ||{{ book.comentario }}
+          </li>
+      {% else %}
+      <li> realize una busqueda para cargar los links</li>
+      {% endfor %}
+    <!-- </ul>
+
+{% endblock %}
