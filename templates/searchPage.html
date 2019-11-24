@@ -32,10 +32,10 @@
     <ul>
       {% for book in bks %}
           <li>
-            <!-- <a href="{{ url_for('searchPage', Source=book.sbnNumber) }}"> -->
-            <a href="{{ url_for('searchPage') }}/{{book.sbnNumber}}">  
-            {{ book.sbnNumber }} || {{ book.title }} || {{ book.pubYear }} || {{ book.author }}
-            </a>
+            <form action="{{ url_for('searchPage') }}/{{book.sbnNumber}}" method="post">
+              <input type="hidden" name="name" value="{{name}}">
+              <button type="submit" class="btn btn-primary btn-sm" style="margin:5px;">{{ book.sbnNumber }} || {{ book.title }} || {{ book.pubYear }} || {{ book.author }}</button>
+            </form>
           </li>
       {% else %}
       <li> realize una busqueda para cargar los links</li>

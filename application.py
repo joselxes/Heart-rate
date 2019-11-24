@@ -83,13 +83,6 @@ def searchPage():
     comando=["""SELECT "sbnNumber","title","author", "pubYear" FROM "books" WHERE "title" LIKE :tito AND "pubYear" LIKE :yer AND "author" LIKE :crea AND "sbnNumber" LIKE :num""",{"tito":integra(session["title"]),"yer":integra(session["pubYear"]),"crea":integra(session["author"]),"num":integra(session["sbnNumber"])}]
     print(comando)
     session["books"]=db.execute("""SELECT "sbnNumber","title","author", "pubYear" FROM "books" WHERE "title" LIKE :tito AND "pubYear" LIKE :yer AND "author" LIKE :crea AND "sbnNumber" LIKE :num""",{"tito":integra(session["title"]),"yer":integra(session["pubYear"]),"crea":integra(session["author"]),"num":integra(session["sbnNumber"])}).fetchall()
-#    session["books"]=db.execute("""SELECT "sbnNumber","title","author", "pubYear" FROM "books" WHERE "title" LIKE :tito AND "pubYear" LIKE :yer AND "author" LIKE :crea AND "sbnNumber" LIKE :num""",
-#    {"tito":integra(session["title"]),"yer":integra(session["pubYear"]),"crea":integra(session["author"]),"num":integra(session["sbnNumber"])}).fetchall()
-    # if request.method=="POST":
-        # return  render_template("searchPage.html",books=session["books"],mensaje="post")#session["books"],mensaje="posted")
-
-    # if session["books"] is None:
-    #     return "bool" #render_template("searchPage.html",bks=session["books"],mensaje="no existe ese libro",psw=session["password"],name=session["user"])
 
     return render_template("searchPage.html",bks=session["books"],
     lol=session["sbnNumber"],
@@ -99,28 +92,30 @@ def searchPage():
 
 @app.route("/searchPage/<Source>", methods=["GET","POST"] )
 def bookdata(Source):
-
+    session["name"]=request.form.get("name")
+    print("---------------------------------")
+    print(session["name"])
+    print("---------------------------------")
     session["review"]=request.form.get("review")
     session["rate"]=request.form.get("rate")
-    session["datareview"]=""
     session["databook"]=db.execute("""SELECT * FROM "books" WHERE "sbnNumber" = :Source""",{"Source":Source}).fetchone()
     if session["databook"] is None:
-        return  render_template("error.html",mensaje="no disponemos de este libro")
-    session["datareview"] = db.execute("""SELECT * FROM "reviews" WHERE "sbnNumber" = :Sour""",{"Sour":Source}).fetchall()
-    #return "sssssssssss"# render_template("review.html",book=session["databook"],reviews=session["datareview"],rates=[1,2,3,4,5])#,sbnN=Source)
-    session["review"]=request.form.get("review")
-
-    session["rate"]=request.form.get("rate")
-    if session["review"] is None:
-        return  render_template("review.html",book=session["databook"],reviews=session["datareview"],rates=[1,2,3,4,5],sbnN=Source)
-    print("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
-    db.execute("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":"dabee","source":Source,"review":session["review"],"rate":session["rate"]})
-    db.commit()
-    session["databook"]=db.execute("""SELECT * FROM "books" WHERE "sbnNumber" = :Source""",{"Source":Source }).fetchone()
-    if session["databook"] is None:
         return  render_template("error.html",mensaje="no disponemos de este libro"),404
-        session["datareview"] = db.execute("""SELECT * FROM "reviews" WHERE "sbnNumber" = :Sour""", {"Sour":Source }).fetchall()
-    return  render_template("review.html",book=session["databook"],reviews=session["datareview"],rates=[1,2,3,4,5],sbnN=Source)
+
+    session["datareview"] = db.execute("""SELECT * FROM "reviews" WHERE "sbnNumber" = :Sour""",{"Sour":Source}).fetchall()
+
+    if session["review"] is None:
+        return  render_template("review.html",book=session["databook"],reviews=session["datareview"],rates=[1,2,3,4,5],sbnN=Source,name=session["name"],nope="caso vacio")
+
+
+#    session["rate"]=request.form.get("rate")
+
+    print("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
+    db.execute("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
+    db.commit()
+    session["datareview"] = db.execute("""SELECT * FROM "reviews" WHERE "sbnNumber" = :Sour""", {"Sour":Source }).fetchall()
+
+    return  render_template("review.html",book=session["databook"],reviews=session["datareview"],rates = [1,2,3,4,5],sbnN=Source,name=session["name"])
 
 @app.route("/api/searchPage/<Source>" )
 def bookAPI(Source):

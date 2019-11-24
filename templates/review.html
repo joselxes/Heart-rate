@@ -1,13 +1,14 @@
 {% extends "layout.html" %}
 {% block title %}
-    review
+    {{nope}}
 {% endblock %}
 
 {% block body %}
-
-    <h2> {{ book.sbnNumber }} || {{ book.title }} ||</h2>
-    <h2> {{ book.pubYear }}</h2>
-    <h2>||{{ book.author }} </h2>
+    <h2>welcome ||{{ name }} </h2>
+    <h3> {{ book.sbnNumber }} ||</h3>
+    <h3>{{ book.title }} ||</h3>
+    <h3> {{ book.pubYear }}</h3>
+    <h3>||{{ book.author }} </h3>
 
     <ul>
       {% for review in reviews  %}
@@ -22,7 +23,7 @@
       {% endfor %}
     </ul>
 
-    <form  method="post">
+    <form action="{{ url_for('searchPage') }}/{{book.sbnNumber}}"  method="post">
       <div class="form-group">
         <select class="form-control" name="rate">
             {% for rate in rates %}
@@ -33,8 +34,8 @@
         </select>
       </div>
         <input type="text" class="form-control" name="review" id="sbnHeaderBox"  placeholder="insert coments book">
-
-        <button type="submit" class="btn btn-primary">submit comment</button>
+        <input type="hidden" name="name" value={{name}}>
+        <button type="submit" class="btn btn-primary" style="margin:5px;">submit comment</button>
     </form>
 
 
