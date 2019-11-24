@@ -1,9 +1,12 @@
 import os
-
-from flask import Flask, session, render_template, request, redirect
+import requests
+from flask import Flask, session, render_template, request, redirect, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+
+
+
 
 app = Flask(__name__)
 
@@ -59,6 +62,7 @@ def index():
 def searchPage():
     session["password"]=request.form.get("psw")
     session["user"]=request.form.get("name")
+    nombre=session["user"]
     session["cliente"] = db.execute("""SELECT * FROM "users" WHERE "user" = :user""", {"user":session["user"] }).fetchone()
     if session.get("cliente") is None:
             return  render_template("trueLogin.html")
@@ -95,6 +99,7 @@ def searchPage():
 
 @app.route("/searchPage/<Source>", methods=["GET","POST"] )
 def bookdata(Source):
+
     session["review"]=request.form.get("review")
     session["rate"]=request.form.get("rate")
     session["datareview"]=""
@@ -109,7 +114,7 @@ def bookdata(Source):
     if session["review"] is None:
         return  render_template("review.html",book=session["databook"],reviews=session["datareview"],rates=[1,2,3,4,5],sbnN=Source)
     print("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
-    db.execute("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
+    db.execute("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":"dabee","source":Source,"review":session["review"],"rate":session["rate"]})
     db.commit()
     session["databook"]=db.execute("""SELECT * FROM "books" WHERE "sbnNumber" = :Source""",{"Source":Source }).fetchone()
     if session["databook"] is None:
@@ -117,8 +122,22 @@ def bookdata(Source):
         session["datareview"] = db.execute("""SELECT * FROM "reviews" WHERE "sbnNumber" = :Sour""", {"Sour":Source }).fetchall()
     return  render_template("review.html",book=session["databook"],reviews=session["datareview"],rates=[1,2,3,4,5],sbnN=Source)
 
-    #render_template("advertencia.html",sbnNum=Source)
+@app.route("/api/searchPage/<Source>" )
+def bookAPI(Source):
 
-# @app.route("/welcomeNewUser/portal")
-# def portal():
-#     return  render_template("portal.html")
+    session["datareview"]=""
+    session["databook"]=db.execute("""SELECT * FROM "books" WHERE "sbnNumber" = :Source""",{"Source":Source}).fetchone()
+    if session["databook"] is None:
+        return jsonify({"error":"invalid requested book "}),404
+    session["res"] = requests.get("https://www.goodreads.com/book/review_counts.json",params={"key": "XpBeTod1UwDEF989WE4g", "isbns": Source})
+    session["data"]=session["res"].json()
+    #rate=data["books"][0]["work_ratings_count"]
+    #rate1=data["books"][0]["average_rating"]
+    return jsonify({
+    "title": session["databook"].title,
+    "author": session["databook"].author,
+    "year": session["databook"].pubYear,
+    "isbn": session["databook"].sbnNumber,
+    "review_count":session["data"]["books"][0]["work_ratings_count"],
+    "average_score":session["data"]["books"][0]["average_rating"]
+    })
