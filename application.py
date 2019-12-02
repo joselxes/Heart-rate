@@ -109,9 +109,11 @@ def bookdata(Source):
 
 
 #    session["rate"]=request.form.get("rate")
-
     print("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
-    db.execute("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
+    try:
+        db.execute("""INSERT INTO "reviews" ("user","sbnNumber","comentario","rate") VALUES  (:name , :source,:review,:rate) """,{"name":session["name"],"source":Source,"review":session["review"],"rate":session["rate"]})
+    except :
+        return  render_template("error.html",mensaje="no puede realizar otro comentario"),404
     db.commit()
     session["datareview"] = db.execute("""SELECT * FROM "reviews" WHERE "sbnNumber" = :Sour""", {"Sour":Source }).fetchall()
 
