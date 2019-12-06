@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Welcomess
+    <h1>{{mensaje}}</h1>
+{% endblock %}
+
+{% block body %}
+
+    <h2>{{name}}</h2>
+    <h2>{{lol}}</h2>
+
+            <form action="{{ url_for('ilumi') }}" method="post">
+              <button type="submit" class="btn btn-primary btn-sm" style="margin:5px;">Look for iluminations</button>
+            </form>
+            <form action="{{ url_for('text') }}" method="post">
+              <button type="submit" class="btn btn-primary btn-sm" style="margin:5px;">Look for texture</button>
+            </form>
+            <form action="{{ url_for('guy') }}" method="post">
+              <button type="submit" class="btn btn-primary btn-sm" style="margin:5px;">Look for hierarchy dog</button>
+            </form>
+            <form action="{{ url_for('sol') }}" method="post">
+              <button type="submit" class="btn btn-primary btn-sm" style="margin:5px;">Look for hierarchy systemsolar</button>
+            </form>
+            <form action="{{ url_for('cloud') }}" method="post">
+              <button type="submit" class="btn btn-primary btn-sm" style="margin:5px;">Look for multipoints</button>
+            </form>
+{% endblock %}
