@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Main Menu
+
+{% endblock %}
+
+{% block body %}
+<form action="{{ url_for('selection') }}" method="post">
+
+  <div class="form-group">
+    <input class="form-control" name="value" placeholder="Latidos / minutos" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+  </div>
+  <div class="form-group">
+      <button class="btn btn-primary">Introduzca valor</button>
+  </div>
+
+</form>
+
+     <center>
+        <ol>
+          {%for i in range(0,size)-%}
+            <li>
+              <form action="{{ url_for('searchPage') }}/{{options[i]}}" method="post">
+                <input type="hidden" name="value" value="{{options[i]}}">
+                <button type="submit" class="btn btn-primary btn-sm" style="margin:5px;">{{ills[i]}}</button>
+              </form>
+            </li>
+
+          {%endfor-%}
+        </ol>
+      </center>
+
+
+{% endblock %}

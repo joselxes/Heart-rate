@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}
+    enfermedad 12
+{% endblock %}
+
+{% block body %}
+<h3 id="encabzado">Hola, bienvenido a PATHHEART :3 </h3>
+<h3 id="encabzado"> {{ value }} Latidos/minuto</h3>
+
+<h1>Resultados</h1>
+  <center>
+    {%for i in range(0,size)-%}
+      <h3 class="Results"><a href="{{ url_for('searchPage') }}/{{option[i]}}"> {{ills[i]}} </a></h3>
+    {%endfor-%}
+  </center>
+
+{% endblock %}

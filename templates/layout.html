@@ -5,51 +5,80 @@
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/docsas.css">
+        <link rel="stylesheet" href="/static/css/anime.css">
+        <style>
+        .button {
+
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
+          -webkit-transition-duration: 0.4s; /* Safari */
+          transition-duration: 0.4s;
+        }
+        .button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.2),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+        </style>
+
         {% block head %}
         {% endblock %}
     </head>
     <body>
 <center>
   <table class="table table-sm table-striped table-dark col-lg-3 col-sm-6" style="width:70%;" >
-    <caption>Links y descripcin de la pagina web y de las pestanas</caption>
+    <!-- <caption>Links y descripcin de la pagina web y de las pestanas0</caption> -->
       <tr>
-        <th scope="col"class="bg-primary">
+        <th scope="col" colspan="1" class="bg-warning">
+          <form  action="{{ url_for('searchPage') }}">
+            <center>
+            <button  class="btn btn-warning">&#x26D4;Menu Principal</button>
+          </center>
+          </form>
+
+        </th>
+        <th scope="col" colspan="1" class="bg-success">
           <form  action="{{ url_for('index') }}">
-            <button  class="btn btn-primary">&#x26D4;regresar al inicio</button>
+            <button  class="btn btn-success">&#x26D4;Cerrar sesion</button>
           </form>
         </th>
-        <th scope="col"class="bg-success">
-          <form  action="{{ url_for('index') }}">
-            <button  class="btn btn-success">&#x26D4;Sin uso actual</button>
-          </form>
-        </th>
-        <th scope="col"class="bg-warning">
+        <!-- <th scope="col"class="bg-warning">
           <form  action="{{ url_for('index') }}" method="post">
             <input type="hidden" name="session" value="no">
             <button  class="btn btn-warning">&#x26D4;Log out</button>
-          </form>
+          </form> -->
 
         </th>
       </tr>
       <tr>
-        <td  colspan="5" style="text-align:center;">Puede realizar sus busquedas mediante</td>
+        <td  colspan="5" style="text-align:center;">Puede realizar sus busquedas mediante los latidos/minutos o por enfemerdad</td>
       </tr>
-      <tr >
+      <!-- <tr >
         <td>isb number</td>
-        <td>nombre de autor</td>
-        <td>titulo de la obra</td>
-      </tr>
+      </tr> -->
       <tr>
-        <td>BIEN-- </td>
-        <td>publication year </td>
-        <td>--VENIDO</td>
+        <td colspan="5" style="text-align:center;">Bienvenido {{ name }}</td>
       </tr>
   </table>
+  <!-- <p id="encabzado" style="width:50%;">Links y descripcion de la pagina web, en las pestanas</p> -->
 </center>
   <div class="container">
     {% block body %}
     {% endblock %}
   </div>
+  <div class="alert alert-success" role="alert" id="ultimo">
+    <h4 class="alert-heading">Gracias por leer!</h4>
+    <p>Final de esta pagina</p>
+    <hr>
+    <p class="mb-0">Hay mas informacion no dudes en revisarlas</p>
+  </div>
+
     </body>
+
 </html>

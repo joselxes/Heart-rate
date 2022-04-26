@@ -4,7 +4,9 @@
 
 .container button {
   background-color: Transparent;
-  background-repeat: no-repeat;* {box-sizing: border-box}
+  background-repeat: no-repeat;
+}
+* {box-sizing: border-box}
 
 /* Add padding to containers */
 .container {

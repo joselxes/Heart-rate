@@ -1,10 +1,79 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/css/anime.css">
+        <style>
+        .button {
 
-{% block title %}
-    Error
-{% endblock %}
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
+          -webkit-transition-duration: 0.4s; /* Safari */
+          transition-duration: 0.4s;
+        }
+        .button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.2),0 17px 50px 0 rgba(0,0,0,0.19);
+}
 
-{% block body %}
-    <h1>Error</h1>
-    <h3>{{ mensaje }}</h3>
-{% endblock %}
+        </style>
+
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+<center>
+  <table class="table table-sm table-striped table-dark col-lg-3 col-sm-6" style="width:70%;" >
+    
+      <tr>
+        <th scope="col" colspan="1" class="bg-warning">
+          <form  action="{{ url_for('index') }}">
+            <center>
+            <button  class="btn btn-warning">&#x26D4;Menu Principal</button>
+          </center>
+          </form>
+
+        <!-- <th scope="col"class="bg-warning">
+          <form  action="{{ url_for('index') }}" method="post">
+            <input type="hidden" name="session" value="no">
+            <button  class="btn btn-warning">&#x26D4;Log out</button>
+          </form> -->
+
+        </th>
+      </tr>
+      <tr>
+        <td  colspan="5" style="text-align:center;">Hay un problema en los datos, de tu registro Llena correctamente los datos</td>
+      </tr>
+      <!-- <tr >
+        <td>isb number</td>
+      </tr> -->
+      <tr>
+        <td colspan="5" style="text-align:center;">Bienvenido {{ user }}</td>
+      </tr>
+  </table>
+
+    <p style="background-color:aliceblue;width:50%;">Links y descripcin de la pagina web y de las pestanas.</p>
+</center>
+  <div class="container">
+    {% block body %}
+    {% endblock %}
+  </div>
+  <div class="alert alert-success" role="alert" id="ultimo">
+  <h4 class="alert-heading">Revisa tus datos</h4>
+  <p>Final de esta pagina</p>
+  <hr>
+  <p class="mb-0">Regresa a la pagina principal</p>
+</div>
+
+    </body>
+
+</html>
