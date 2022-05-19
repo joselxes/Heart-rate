@@ -2,3 +2,12 @@ Flask
 Flask-Session
 psycopg2-binary
 SQLAlchemy
+
+
+*to run
+-export FLASK_APP=application.py
+-flask run
+
+*if debug mode
+-export FLASK_DEBUG=1
+
